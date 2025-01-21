@@ -1,11 +1,6 @@
 ;; A test script
 
 ;; import sleep function
-(define (sleep time)
-    (let* ((start (current-time)))
-        (while (>= time (time-difference (current-time) start)))
-    )
-)
 
 (define (string-replace strIn strReplace strReplaceWith)
     (let*
@@ -60,15 +55,16 @@
                         (gimp-message file)
                         ;; resize the picture
                         (let* ( 
-                                ;(img (gimp-file-load RUN-NONINTERACTIVE file file))
-                                ;(drawable (car (gimp-image-get-active-layer img)))
+                                (img (car (gimp-file-load RUN-NONINTERACTIVE file "")))
+                                (drawable (car (gimp-image-active-drawable img)))
                                 (width  inWidth)
                                 (height  inHeight)
+                                (outFile (string-append file ".resized." inSuffix))
                             )
                             (gimp-message (number->string width))
                             (gimp-message (number->string height))
-                            ; (gimp-image-scale img width height)
-                            ; (gimp-file-save RUN-NONINTERACTIVE img drawable file file)
+                            (gimp-image-scale img width height)
+                            (gimp-file-save RUN-NONINTERACTIVE img drawable outFile "")
                             ; (gimp-image-delete img)
                         )
                         ;(sleep 1000)
@@ -90,38 +86,6 @@
         )
 
     )
-
-    ; (let* ((mInDir (string-replace inDir "\\" "\\\\"))
-    ;         (mInDir2 (string-append mInDir "\\\\*." inSuffix))
-    ;         (filelist (file-glob "d:\\\\project\\prjs\\pics\\*.png" 1))
-    ;         (fileNum (car filelist)))
-        
-    ;     (gimp-message "The modified directory is")
-    ;     (gimp-message mInDir)
-    ;     (gimp-message "The 2nd modified directory is")
-    ;     (gimp-message mInDir2)
-    ;     (gimp-message "The file list num is")
-    ;     (gimp-message (number->string fileNum))
-    ;     ;; ('This is displayed as a message')
-    
-    ; )
-
-    ;; loop the directory, print every picture name
-    ;; (let* ( (mInDir (string-replace inDir "\\" "9"))
-    ;         (filelist (cadr (file-glob mInDir 1)))
-    ;         (file (car filelist))
-    ;     )
-        
-    ;     (gimp-message "The file list is")
-    ;     (gimp-message filelist)
-    ;     (gimp-message "The file is")
-    ;     (gimp-message file)
-
-        ;(while file
-        ;    (gimp-message file)
-        ;    (set! file (car (cdr filelist)))
-        ;)
-    ;;)
 )
 
   (script-fu-register
