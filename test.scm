@@ -1,5 +1,12 @@
 ;; A test script
 
+;; import sleep function
+(define (sleep time)
+    (let* ((start (current-time)))
+        (while (>= time (time-difference (current-time) start)))
+    )
+)
+
 (define (string-replace strIn strReplace strReplaceWith)
     (let*
         (
@@ -34,20 +41,70 @@
     (gimp-message inDir)    ;; You can easily print the directory name 
     (gimp-message inSuffix)
 
-    (let* ((mInDir (string-replace inDir "\\" "\\\\"))
-            (mInDir2 (string-append mInDir "\\\\*." inSuffix))
-            (filelist (file-glob "d:\\\\project\\prjs\\pics\\*.png" 1))
-            (fileNum (car filelist)))
-        
-        (gimp-message "The modified directory is")
-        (gimp-message mInDir)
-        (gimp-message "The 2nd modified directory is")
-        (gimp-message mInDir2)
-        (gimp-message "The file list num is")
+    (let* ( (pattern (string-append inDir "/*." inSuffix))
+            (filelist (file-glob pattern 1))
+            (fileNum (car filelist))
+        )
+        (gimp-message "The pattern is")
+        (gimp-message pattern)
+        (gimp-message "The file list is")
         (gimp-message (number->string fileNum))
-        ;; ('This is displayed as a message')
-    
+
+        (if (> fileNum 0)
+            (begin
+                (let* ((mlist (cadr filelist))
+                        (file (car mlist))
+                    )
+                    (while file 
+                    
+                        (gimp-message file)
+                        ;; resize the picture
+                        (let* ( 
+                                ;(img (gimp-file-load RUN-NONINTERACTIVE file file))
+                                ;(drawable (car (gimp-image-get-active-layer img)))
+                                (width  inWidth)
+                                (height  inHeight)
+                            )
+                            (gimp-message (number->string width))
+                            (gimp-message (number->string height))
+                            ; (gimp-image-scale img width height)
+                            ; (gimp-file-save RUN-NONINTERACTIVE img drawable file file)
+                            ; (gimp-image-delete img)
+                        )
+                        ;(sleep 1000)
+                        (set! mlist (cdr mlist))
+                        (if (null? mlist)
+                            (set! file #f)
+                            (set! file (car mlist))
+                        )
+                        (gimp-message "done")
+                        ;(set! file (car mlist))
+                    )
+
+                    ; (while file
+                    ;     (gimp-message file)
+                    ;     (set! file (car (cdr file)))
+                    ; )
+                )
+            )
+        )
+
     )
+
+    ; (let* ((mInDir (string-replace inDir "\\" "\\\\"))
+    ;         (mInDir2 (string-append mInDir "\\\\*." inSuffix))
+    ;         (filelist (file-glob "d:\\\\project\\prjs\\pics\\*.png" 1))
+    ;         (fileNum (car filelist)))
+        
+    ;     (gimp-message "The modified directory is")
+    ;     (gimp-message mInDir)
+    ;     (gimp-message "The 2nd modified directory is")
+    ;     (gimp-message mInDir2)
+    ;     (gimp-message "The file list num is")
+    ;     (gimp-message (number->string fileNum))
+    ;     ;; ('This is displayed as a message')
+    
+    ; )
 
     ;; loop the directory, print every picture name
     ;; (let* ( (mInDir (string-replace inDir "\\" "9"))
@@ -81,8 +138,8 @@
     SF-DIRNAME     "Directory"      ""          ;a directory variable
     ;; SF-STRING      "Text"          "Text Box"   ;a string variable
     ; SF-FONT        "Font"          "Charter"    ;a font variable
-    SF-ADJUSTMENT  "Width"     '(50 1 1000 1 10 0 1)
-    SF-ADJUSTMENT  "Height"     '(50 1 1000 1 10 0 1)                                                ;a spin-button
+    SF-ADJUSTMENT  "Width"     '(512 1 1000 1 10 0 1)
+    SF-ADJUSTMENT  "Height"     '(650 1 1000 1 10 0 1)                                                ;a spin-button
     ;;SF-COLOR       "Color"         '(0 0 0)     ;color variable
     SF-STRING     "suffix"    "png"          ;a filename string
   )
