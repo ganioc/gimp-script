@@ -102,8 +102,8 @@
     SF-DIRNAME     "Directory"      ""          ;a directory variable
     ;; SF-STRING      "Text"          "Text Box"   ;a string variable
     ; SF-FONT        "Font"          "Charter"    ;a font variable
-    SF-ADJUSTMENT  "Width"     '(512 1 1000 1 10 0 1)
-    SF-ADJUSTMENT  "Height"     '(650 1 1000 1 10 0 1)                                                ;a spin-button
+    SF-ADJUSTMENT  "Width"     '(512 1 2000 1 10 0 1)
+    SF-ADJUSTMENT  "Height"     '(650 1 2000 1 10 0 1)                                                ;a spin-button
     ;;SF-COLOR       "Color"         '(0 0 0)     ;color variable
     SF-STRING     "suffix"    "png"          ;a filename string
   )
